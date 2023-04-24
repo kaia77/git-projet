@@ -1,0 +1,53 @@
+import random
+
+
+course_dict = {
+    '12345': '오픈 소스 SW 및 Python 프로그래밍',
+    '23456': '데이터 구조 및 알고리즘',
+    '34567': '기계 학습 기본 사항',
+    '45678': '컴퓨터 네트워크',
+    '56789': '운영 체제'
+}
+
+credit_info = [
+    ('12345', 3, 'A+'),
+    ('23456', 2, 'F'),
+    ('34567', 4, 'B+'),
+    ('45678', 3, 'C'),
+    ('56789', 1, 'D+'),
+    ('23456', 1, 'B'),
+    ('12345', 2, 'C+')
+]
+
+
+course_list = []
+
+
+for course in credit_info:
+   
+    course_code, credit, grade = course
+    
+   
+    if course_code in [c[0] for c in course_list]:
+        for i in range(len(course_list)):
+            if course_list[i][0] == course_code and grade > course_list[i][2]:
+                course_list[i] = course
+    else:
+        course_list.append(course)
+    
+
+total_credit = 0
+total_grade_point = 0
+
+for course in course_list:
+    course_code, credit, grade = course
+    total_credit += credit
+    total_grade_point += credit * {'A+': 4.5, 'A': 4.0, 'B+': 3.5, 'B': 3.0, 'C+': 2.5, 'C': 2.0, 'D+': 1.5, 'D': 1.0, 'F': 0.0}[grade]
+
+
+gpa = round(total_grade_point / total_credit, 2)
+
+print('총 학점：', sum([c[1] for c in credit_info if c[2] != 'F']))
+print('평균 성적：', round(sum([c[1] * {'A+': 4.5, 'A': 4.0, 'B+': 3.5, 'B': 3.0, 'C+': 2.5, 'C': 2.0, 'D+': 1.5, 'D': 1.0}[c[2]] for c in credit_info if c[2] != 'F']) / sum([c[1] for c in credit_info if c[2] != 'F']), 2))
+print('총 학점：', sum([c[1] for c in course_list]))
+print('평균 성적：', gpa)
